@@ -1,30 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/cart_page.dart';
 
-class HomePage extends StatelessWidget {
+import 'package:shop_app/product_list.dart';
+
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int currentPage = 0;
+
+  List<Widget> pages = [ProductList(), CartPage()];
+
+  @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    "Shoes\nCollection",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
-                  ),
-                ),
-                Expanded(
-                  child: TextField()
-                  ),
-              ],
-            ),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: IndexedStack(index: currentPage, children: pages),
+      bottomNavigationBar: BottomNavigationBar(
+        iconSize: 35,
+        selectedFontSize: 0,
+        unselectedFontSize: 0,
+        onTap: (value) {
+          setState(() {
+            currentPage = value;
+          });
+        },
+        currentIndex: currentPage,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.shopping_bag), label: ""),
+        ],
       ),
     );
   }
